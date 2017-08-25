@@ -9,7 +9,9 @@ describe('Crypto Challenge Set 1', () => {
         assert.equal(C.xorHexes('1c0111001f010100061a024b53535009181c', '686974207468652062756c6c277320657965'), '746865206b696420646f6e277420706c6179')
     })
     it('Single-byte XOR cipher', () => {
-        assert(C.isMessage(C.findBestSingleByteXORKey('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736')))
+        let message = C.decryptSingleByteXORKey('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736')
+        assert(C.isMessage(message))
+        console.log(message)
     })
     it('Detect single-character XOR', () => {
         assert.fail('not done yet')
