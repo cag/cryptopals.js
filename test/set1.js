@@ -23,7 +23,11 @@ describe('Crypto Challenge Set 1', () => {
     it('Implement repeating-key XOR', () => {
         assert.equal(C.encryptRepeatingKeyXOR("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal", 'ICE'), '0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f')
     })
+    it('hamming distance', () => {
+        assert.equal(C.hammingDistance('this is a test', 'wokka wokka!!!'), 37)
+    })
     it('Break repeating-key XOR', () => {
+        let ciphertext = Buffer.from(fs.readFileSync(`${__dirname}/6.txt`).toString(), 'base64')
         assert.fail('not done yet')
     })
     it('AES in ECB mode', () => {

@@ -68,5 +68,13 @@ module.exports = {
 
     encryptRepeatingKeyXOR(message, key) {
         return xorBuffers(Buffer.from(message), Buffer.alloc(message.length, key)).toString('hex')
+    },
+
+    hammingDistance(a, b) {
+        return Array.from(xorBuffers(Buffer.from(a), Buffer.from(b))).reduce((bitCount, byte) => {
+            for (let i = 0; i < 8; i++)
+                if(byte & (1<<i)) bitCount++
+            return bitCount
+        }, 0)
     }
 }
