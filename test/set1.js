@@ -1,4 +1,5 @@
 const assert = require('assert')
+const fs = require('fs')
 const C = require('..')
 
 describe('Crypto Challenge Set 1', () => {
@@ -14,7 +15,10 @@ describe('Crypto Challenge Set 1', () => {
         console.log(message)
     })
     it('Detect single-character XOR', () => {
-        assert.fail('not done yet')
+        cipherhexes = fs.readFileSync(`${__dirname}/4.txt`).toString().split('\n')
+        let message = C.detectSingleByteXor(cipherhexes)
+        assert(C.isMessage(message))
+        console.log(message)
     })
     it('Implement repeating-key XOR', () => {
         assert.fail('not done yet')
