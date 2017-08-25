@@ -64,5 +64,9 @@ module.exports = {
 
     isMessage(str) {
         return Array.from(Buffer.from(str)).every((charCode) => scoreEnglishChar(charCode) >= 0)
+    },
+
+    encryptRepeatingKeyXOR(message, key) {
+        return xorBuffers(Buffer.from(message), Buffer.alloc(message.length, key)).toString('hex')
     }
 }
