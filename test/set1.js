@@ -28,7 +28,9 @@ describe('Crypto Challenge Set 1', () => {
     })
     it('Break repeating-key XOR', () => {
         let ciphertext = Buffer.from(fs.readFileSync(`${__dirname}/6.txt`).toString(), 'base64')
-        assert.fail('not done yet')
+        let message = C.decryptRepeatingKeyXOR(ciphertext)
+        console.log(message)
+        assert(C.isMessage(message))
     })
     it('AES in ECB mode', () => {
         assert.fail('not done yet')
