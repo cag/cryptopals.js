@@ -1,3 +1,5 @@
+const aesjs = require('aes-js');
+
 function xorBuffers(a, b) {
     return a.map((val, i) => val ^ b[i])
 }
@@ -73,10 +75,10 @@ module.exports = {
         }, firstEntryDecAndScore)[0]
     },
 
-    isMessage(str) {
-        if(Array.from(Buffer.from(str)).every((charCode) => scoreEnglishChar(charCode) >= 0))
+    isMessage(str, blockSize = 0) {
+        if(Array.from(Buffer.from(str)).every((charCode, i, arr) => scoreEnglishChar(charCode) >= 0 || arr.length - i <= blockSize))
             return true
-        console.log(Array.from(Buffer.from(str)).filter((charCode) => scoreEnglishChar(charCode) < 0))
+        // console.log(Array.from(Buffer.from(str)).filter((charCode) => scoreEnglishChar(charCode) < 0))
         return false
     },
 
@@ -134,5 +136,24 @@ module.exports = {
         }
 
         return bestMessage
+    },
+
+    decryptAES_ECB(ciphertext, key) {
+        const aesEcb = new aesjs.ModeOfOperation.ecb(key)
+        return aesjs.utils.utf8.fromBytes(aesEcb.decrypt(ciphertext))
+    },
+
+    detectAES_ECB(cipherCandidates) {
+        return cipherCandidates.filter(candidate => {
+            for (let i = 0; i < candidate.length - 16; i += 16) {
+                for (let j = i + 16; j < candidate.length; j += 16) {
+                    if(candidate.compare(candidate, i, i + 16, j, j + 16) === 0) {
+                        // console.log('ECB candidate', candidate.toString('hex'))
+                        return true
+                    }
+                }
+            }
+            return false
+        })
     },
 }

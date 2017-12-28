@@ -12,30 +12,34 @@ describe('Crypto Challenge Set 1', () => {
     it('Single-byte XOR cipher', () => {
         let message = C.decryptSingleByteXORKey('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736')
         assert(C.isMessage(message))
-        console.log(message)
+        // console.log(message)
     })
     it('Detect single-character XOR', () => {
         cipherhexes = fs.readFileSync(`${__dirname}/4.txt`).toString().split('\n')
         let message = C.detectSingleByteXor(cipherhexes)
         assert(C.isMessage(message))
-        console.log(message)
+        // console.log(message)
     })
     it('Implement repeating-key XOR', () => {
         assert.equal(C.encryptRepeatingKeyXOR("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal", 'ICE'), '0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f')
     })
-    it('hamming distance', () => {
+    it('Hamming distance', () => {
         assert.equal(C.hammingDistance('this is a test', 'wokka wokka!!!'), 37)
     })
     it('Break repeating-key XOR', () => {
         let ciphertext = Buffer.from(fs.readFileSync(`${__dirname}/6.txt`).toString(), 'base64')
         let message = C.decryptRepeatingKeyXOR(ciphertext)
-        console.log(message)
+        // console.log(message)
         assert(C.isMessage(message))
     })
     it('AES in ECB mode', () => {
-        assert.fail('not done yet')
+        let ciphertext = Buffer.from(fs.readFileSync(`${__dirname}/7.txt`).toString(), 'base64')
+        let message = C.decryptAES_ECB(ciphertext, Buffer.from('YELLOW SUBMARINE'))
+        // console.log(message)
+        assert(C.isMessage(message, 16))
     })
     it('Detect AES in ECB mode', () => {
-        assert.fail('not done yet')
+        let cipherCandidates = fs.readFileSync(`${__dirname}/8.txt`).toString().split('\n').filter(s=>s).map(hex => Buffer.from(hex, 'hex'))
+        assert.equal(C.detectAES_ECB(cipherCandidates).length, 1)
     })
 })
